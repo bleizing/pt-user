@@ -50,4 +50,7 @@
 
     <string name="slide_4_title">PunyaTemen</string>
     <string name="slide_4_desc">Market for Shared Stuff!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

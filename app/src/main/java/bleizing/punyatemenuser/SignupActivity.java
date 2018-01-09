@@ -122,6 +122,8 @@ public class SignupActivity extends AppCompatActivity {
                                         e.printStackTrace();
                                     }
 
+                                    Log.d(TAG, "JSON Request = " + jsonObject.toString());
+
                                     JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, NetAPI.URL, jsonObject, new Response.Listener<JSONObject>() {
                                         @Override
                                         public void onResponse(JSONObject response) {

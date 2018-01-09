@@ -128,6 +128,8 @@ public class LoginForm extends AppCompatActivity {
                                         e.printStackTrace();
                                     }
 
+                                    Log.d(TAG, "JSON Request = " + jsonObject.toString());
+
                                     // Make a Request
                                     JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, NetAPI.URL, jsonObject, new Response.Listener<JSONObject>() {
                                         @Override
@@ -145,7 +147,6 @@ public class LoginForm extends AppCompatActivity {
                                                     String jekel = response.getString("jekel");
                                                     String alamat = response.getString("alamat");
                                                     String no_hp = response.getString("no_hp");
-                                                    int status = Integer.parseInt(response.getString("status_user"));
                                                     String no_ktp = response.getString("no_ktp");
                                                     String email = response.getString("email");
                                                     String foto_ktp = response.getString("foto_ktp");
