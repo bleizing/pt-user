@@ -151,11 +151,11 @@ public class LoginForm extends AppCompatActivity {
                                                     String email = response.getString("email");
                                                     String foto_ktp = response.getString("foto_ktp");
 
-//                                                    Penyewa penyewa = new Penyewa(id, nama, tempat_lahir, tanggal_lahir, jekel, alamat, no_hp, status, no_ktp, email, foto_ktp);
-//                                                    Model.setPenyewa(penyewa);
+                                                    CalonPenyewa calonPenyewa = new CalonPenyewa(id, nama, tempat_lahir, tanggal_lahir, jekel, alamat, no_hp, no_ktp, email, foto_ktp);
+                                                    Model.setCalonPenyewa(calonPenyewa);
 
                                                     Intent intent = new Intent(LoginForm.this, MainActivity.class);
-                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                     startActivity(intent);
                                                     finish();
                                                 }

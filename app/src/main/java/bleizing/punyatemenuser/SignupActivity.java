@@ -1,5 +1,6 @@
 package bleizing.punyatemenuser;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +25,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SignupActivity extends AppCompatActivity {
+public class SignupActivity extends Activity {
 
     private static final String TAG = "SignupActivity";
 
@@ -136,11 +137,11 @@ public class SignupActivity extends AppCompatActivity {
                                                 if (type.equals("success")) {
                                                     int id = Integer.parseInt(response.getString("id"));
 
-//                                                    Penyewa penyewa = new Penyewa(id, email);
-//                                                    Model.setPenyewa(penyewa);
+                                                    CalonPenyewa calonPenyewa = new CalonPenyewa(id, email);
+                                                    Model.setCalonPenyewa(calonPenyewa);
 
                                                     Intent intent = new Intent(SignupActivity.this, MainActivity.class);
-                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                     startActivity(intent);
                                                     finish();
                                                 }

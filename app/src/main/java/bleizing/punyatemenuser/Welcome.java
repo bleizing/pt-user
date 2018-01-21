@@ -1,5 +1,6 @@
 package bleizing.punyatemenuser;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,7 +19,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class Welcome extends AppCompatActivity {
+public class Welcome extends Activity {
 
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;

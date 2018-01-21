@@ -1,5 +1,6 @@
 package bleizing.punyatemenuser;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,7 +10,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class HomeStart extends AppCompatActivity {
+public class HomeStart extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

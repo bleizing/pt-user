@@ -13,7 +13,7 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
-//    private Penyewa penyewa;
+    private CalonPenyewa calonPenyewa;
     private boolean is_fab_show;
 
     private FloatingActionButton fab;
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         is_fab_show = false;
 
-//        penyewa = Model.getPenyewa();
+        calonPenyewa = Model.getCalonPenyewa();
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
 
@@ -82,20 +82,13 @@ public class MainActivity extends AppCompatActivity {
     private void checkFabIsShow() {
         if (is_fab_show) {
             fab.setVisibility(View.VISIBLE);
-//            fab.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (penyewa != null) {
-//                        if (penyewa.getStatus() == 0) {
-//                            Intent abc = new Intent(MainActivity.this, FormVeirifkasi.class);
-//                            startActivity(abc);
-//                        } else {
-//                            Intent abc = new Intent(MainActivity.this, DetailItemInput.class);
-//                            startActivity(abc);
-//                        }
-//                    }
-//                }
-//            });
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent abc = new Intent(MainActivity.this, DetailItemInput.class);
+                    startActivity(abc);
+                }
+            });
         } else {
             fab.setVisibility(View.GONE);
         }

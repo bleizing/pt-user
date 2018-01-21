@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "656126945839",
+    "project_id": "punyatemenuser"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656126945839:android:497563fab184955d",
+        "android_client_info": {
+          "package_name": "bleizing.punyatemenuser"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "656126945839-cihk4d3j0g85fa07qm7479ccip1han8f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbJGcLGYMbiEF6pSXOK0XkBzCS6WOz9BI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

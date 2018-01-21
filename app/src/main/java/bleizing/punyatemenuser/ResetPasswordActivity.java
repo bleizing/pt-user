@@ -1,5 +1,6 @@
 package bleizing.punyatemenuser;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +13,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-public class ResetPasswordActivity extends AppCompatActivity {
+public class ResetPasswordActivity extends Activity {
 
     private EditText inputEmail;
     private Button btnReset, btnBack;
