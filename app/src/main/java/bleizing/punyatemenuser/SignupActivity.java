@@ -144,6 +144,8 @@ public class SignupActivity extends Activity {
                                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                     startActivity(intent);
                                                     finish();
+                                                } else {
+                                                    Toast.makeText(SignupActivity.this, "Email Sudah Terdaftar, Silahkan Register Dengan Email Lainnya", Toast.LENGTH_SHORT).show();
                                                 }
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
@@ -153,7 +155,7 @@ public class SignupActivity extends Activity {
                                         @Override
                                         public void onErrorResponse(VolleyError error) {
                                             Log.e(TAG, "error registerPenyewa : " + error);
-                                            Toast.makeText(SignupActivity.this, "Register Gagal", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(SignupActivity.this, "Tidak Dapat Terhubung ke Server, Register Gagal", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                     jsonObjectRequest.setTag(TAG);

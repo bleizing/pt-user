@@ -222,6 +222,14 @@ public class DetailItemInput extends Activity {
                 btnClickHandle();
             }
         });
+
+        Button btn_close = (Button) findViewById(R.id.btn_close);
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void btnClickHandle() {

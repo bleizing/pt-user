@@ -158,6 +158,9 @@ public class LoginForm extends AppCompatActivity {
                                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                     startActivity(intent);
                                                     finish();
+                                                } else {
+
+                                                    Toast.makeText(LoginForm.this, "Email atau Password Anda Salah", Toast.LENGTH_SHORT).show();
                                                 }
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
@@ -167,7 +170,7 @@ public class LoginForm extends AppCompatActivity {
                                         @Override
                                         public void onErrorResponse(VolleyError error) {
                                             Log.e(TAG, "error loginPenyewa : " + error);
-                                            Toast.makeText(LoginForm.this, "Login Gagal", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(LoginForm.this, "Tidak Dapat Terhubung ke Server, Login Gagal", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                     jsonObjectRequest.setTag(TAG);

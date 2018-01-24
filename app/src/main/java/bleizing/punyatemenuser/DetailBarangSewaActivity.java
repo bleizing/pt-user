@@ -73,6 +73,8 @@ public class DetailBarangSewaActivity extends Activity {
 
         fotoUrl = "http://www.pt.himsigalaksi.com/" + barangSewa.getFoto_barang();
 
+        imageLoader.get(fotoUrl, ImageLoader.getImageListener(networkImageView, R.mipmap.ic_launcher, R.mipmap.ic_launcher));
+
         Button btn_close = (Button) findViewById(R.id.btn_close);
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,10 +132,6 @@ public class DetailBarangSewaActivity extends Activity {
         editLokasi.setText(addressLocation);
         tvTglMulai.setText(tglMulai);
         tvTglBerakhir.setText(tglBerakhir);
-
-        imageLoader.get(fotoUrl, ImageLoader.getImageListener(networkImageView, R.mipmap.ic_launcher, R.mipmap.ic_launcher));
         networkImageView.setImageUrl(fotoUrl, imageLoader);
-
-        Log.d(TAG, "fotoUrl = " + fotoUrl);
     }
 }

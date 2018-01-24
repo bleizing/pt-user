@@ -307,6 +307,7 @@ public class ItemOneFragment extends Fragment implements OnMapReadyCallback,
             public void onMapClick(LatLng latLng) {
                 fab.setImageResource(android.R.drawable.ic_input_add);
                 permintaanBarang = null;
+                barangSewa = null;
             }
         });
 
@@ -344,6 +345,7 @@ public class ItemOneFragment extends Fragment implements OnMapReadyCallback,
             public void onMapClick(LatLng latLng) {
                 fab.setImageResource(android.R.drawable.ic_input_add);
                 permintaanBarang = null;
+                barangSewa = null;
             }
         });
 

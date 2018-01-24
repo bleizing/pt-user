@@ -21,7 +21,7 @@
             android:layout_marginTop="30dp"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:text="Tambah Permintaan Barang"
+            android:text="Permintaan Barang"
             android:textColor="@color/white"
             android:textSize="25sp"
             android:textStyle="bold" />
@@ -202,6 +202,16 @@
                 android:fontFamily="sans-serif-light"
                 android:textSize="20sp" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_close"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tutup"
+            android:background="@color/white"
+            android:textColor="@color/bg_screen3"
+            android:fontFamily="sans-serif-light"
+            android:textSize="20sp" />
     </LinearLayout>
 
 </RelativeLayout>
