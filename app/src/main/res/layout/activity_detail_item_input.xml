@@ -107,35 +107,101 @@
             <!--android:layout_marginTop="-5dp"-->
             <!--android:enabled="false" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:text="Lokasi"
-            android:textColor="@color/white"
-            android:textSize="17sp" />
-
-        <EditText
-            android:id="@+id/editLokasi"
+        <LinearLayout
+            android:id="@+id/linear_lokasi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            android:enabled="false"/>
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn_post"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="Lokasi"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/editLokasi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:enabled="false"/>
+        </LinearLayout>
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:fontFamily="sans-serif-light"-->
+            <!--android:text="Lokasi"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="17sp" />-->
+
+        <!--<EditText-->
+            <!--android:id="@+id/editLokasi"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:fontFamily="sans-serif-light"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="17sp"-->
+            <!--android:enabled="false"/>-->
+
+        <LinearLayout
+            android:id="@+id/linear_add"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:background="@color/white"
             android:layout_marginTop="25dp"
             android:layout_marginBottom="35dp"
-            android:text="Pasang Permintaan Barang"
-            android:textColor="@color/bg_screen3"
-            android:fontFamily="sans-serif-light"
-            android:textSize="20sp" />
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/btn_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:text="Pasang Permintaan Barang"
+                android:textColor="@color/bg_screen3"
+                android:fontFamily="sans-serif-light"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_modif"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="35dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/btn_edit"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:layout_marginRight="25dp"
+                android:text="Ubah"
+                android:textColor="@color/bg_screen3"
+                android:fontFamily="sans-serif-light"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/btn_delete"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:layout_marginLeft="25dp"
+                android:text="Hapus"
+                android:textColor="@color/bg_screen3"
+                android:fontFamily="sans-serif-light"
+                android:textSize="20sp" />
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

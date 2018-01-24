@@ -37,7 +37,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCIIQBvypw2Aku-ta8vyUy0MluCyHmSjcE" />
 
-        <activity android:name=".DetailItemInput"></activity>
+        <activity android:name=".DetailItemInput" />
+        <activity android:name=".DetailBarangSewaActivity"></activity>
     </application>
 
 </manifest>

@@ -1,9 +1,12 @@
 package bleizing.punyatemenuser;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,9 +34,12 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
-public class DetailItemInput extends AppCompatActivity {
+public class DetailItemInput extends Activity {
     private static final String TAG = "DetailItemInput";
     private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
 
@@ -41,22 +48,26 @@ public class DetailItemInput extends AppCompatActivity {
 
     private RequestQueue requestQueue;
 
-    final Calendar cal = Calendar.getInstance();
+//    final Calendar cal = Calendar.getInstance();
 
-    private int year_x, month_x, day_x;   // untuk tgl mulai
-    private int year_y, month_y, day_y;   // untuk tgl berakhir
+//    private int year_x, month_x, day_x;   // untuk tgl mulai
+//    private int year_y, month_y, day_y;   // untuk tgl berakhir
+
+    private LinearLayout linearAdd, linearModif, linearLokasi;
+
+    private String type;
 
     private EditText editNama, editDeskripsi, editLokasi;
-    private TextView tvTglMulai, tvTglBerakhir;
-    private ImageView img_foto_barang;
-    private String tgl_mulai, tgl_berakhir;
+//    private TextView tvTglMulai, tvTglBerakhir;
+//    private ImageView img_foto_barang;
+//    private String tgl_mulai, tgl_berakhir;
 
     private double lat,lng;
 
     private LocationManager locationManager;
 
-    private int PICK_IMAGE_REQUEST = 1;
-    private Bitmap bitmap;
+//    private int PICK_IMAGE_REQUEST = 1;
+//    private Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,20 +82,22 @@ public class DetailItemInput extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
-//        if (getIntent().getExtras() !=  null) {
-//            int barangId = Integer.parseInt(getIntent().getExtras().getString("BarangId"));
-//
-//            if (Model.getBarangArrayList() != null || Model.getBarangArrayList().size() != 0) {
-//                for (Barang b : Model.getBarangArrayList()) {
-//                    if (b.getId() == barangId) {
-//                        permintaanBarang = b;
-//                        break;
-//                    }
-//                }
-//            }
-//        }
+        if (getIntent().getExtras() !=  null) {
+            int permintaan_barang_id = getIntent().getExtras().getInt("permintaan_barang_id");
+
+            if (Model.getPermintaanBarangArrayList() != null || Model.getPermintaanBarangArrayList().size() != 0) {
+                for (PermintaanBarang pb : Model.getPermintaanBarangArrayList()) {
+                    if (permintaan_barang_id == pb.getId()) {
+                        permintaanBarang = pb;
+                        break;
+                    }
+                }
+            }
+        }
 
         calonPenyewa = Model.getCalonPenyewa();
+
+        type = "";
 
 //        year_x = cal.get(Calendar.YEAR);
 //        month_x = cal.get(Calendar.MONTH);
@@ -103,12 +116,29 @@ public class DetailItemInput extends AppCompatActivity {
         editDeskripsi = (EditText) findViewById(R.id.edDeskripsi);
 //        tvTglMulai = (TextView) findViewById(R.id.tvTglMulai);
 //        tvTglBerakhir = (TextView) findViewById(R.id.tvTglBerakhir);
+        linearLokasi = (LinearLayout) findViewById(R.id.linear_lokasi);
         editLokasi = (EditText) findViewById(R.id.editLokasi);
 //        img_foto_barang = (ImageView) findViewById(R.id.img_foto_barang);
-//
+        linearAdd = (LinearLayout) findViewById(R.id.linear_add);
+        linearModif = (LinearLayout) findViewById(R.id.linear_modif);
+
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         getCurrentLocation();
-//
+
+        if (permintaanBarang != null) {
+            linearLokasi.setVisibility(View.GONE);
+            linearAdd.setVisibility(View.GONE);
+            linearModif.setVisibility(View.VISIBLE);
+            editNama.setText(permintaanBarang.getNama());
+            editDeskripsi.setText(permintaanBarang.getDeskripsi());
+        } else {
+            linearLokasi.setVisibility(View.VISIBLE);
+            linearAdd.setVisibility(View.VISIBLE);
+            linearModif.setVisibility(View.GONE);
+            type = "insertPermintaanBarang";
+        }
+
 //        Button btn_ambil_gambar = (Button) findViewById(R.id.btn_ambil_gambar);
 //        btn_ambil_gambar.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -171,36 +201,66 @@ public class DetailItemInput extends AppCompatActivity {
         btn_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String nama = editNama.getText().toString().trim();
-                String deskripsi = editDeskripsi.getText().toString().trim();
+                btnClickHandle();
+            }
+        });
+
+        Button btn_edit = (Button) findViewById(R.id.btn_edit);
+        btn_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                type = "editPermintaanBarang";
+                btnClickHandle();
+            }
+        });
+
+        Button btn_delete = (Button) findViewById(R.id.btn_delete);
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                type = "deletePermintaanBarang";
+                btnClickHandle();
+            }
+        });
+    }
+
+    private void btnClickHandle() {
+        String nama = editNama.getText().toString().trim();
+        String deskripsi = editDeskripsi.getText().toString().trim();
 //                String tgl_mulai = tvTglMulai.getText().toString().trim();
 //                String tgl_berakhir = tvTglBerakhir.getText().toString().trim();
 //                String image = "";
-                String tgl_mulai = "";
-                String tgl_berakhir = "";
-                String latlng = editLokasi.getText().toString().trim();
-                String lat = "-6.175206";
-                String lng = "106.827131";
-                if (!latlng.equals("")) {
-                    String arrLatLng[] = latlng.split(",");
-                    lat = arrLatLng[0];
-                    lng = arrLatLng[1];
-                }
+        String tgl_mulai = "";
+        String tgl_berakhir = "";
+        String lat = "-6.175206";
+        String lng = "106.827131";
+        String latlng = "";
+        if (permintaanBarang == null) {
+            latlng = editLokasi.getText().toString().trim();
+            if (!latlng.equals("")) {
+                String arrLatLng[] = latlng.split(",");
+                lat = arrLatLng[0];
+                lng = arrLatLng[1];
+            }
+        } else {
+            lat = "";
+            lng = "";
+        }
 
 //                if (bitmap != null) {
 //                    image = getStringImage(bitmap);
 //                }
 
 
-                if (TextUtils.isEmpty(nama)) {
-                    Toast.makeText(DetailItemInput.this, "Nama Barang Harus Diisi!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+        if (TextUtils.isEmpty(nama)) {
+            Toast.makeText(DetailItemInput.this, "Nama Barang Harus Diisi!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-                if (TextUtils.isEmpty(deskripsi)) {
-                    Toast.makeText(DetailItemInput.this, "Deskripsi Harus Diisi!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+        if (TextUtils.isEmpty(deskripsi)) {
+            Toast.makeText(DetailItemInput.this, "Deskripsi Harus Diisi!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
 //                if (TextUtils.isEmpty(tgl_mulai)) {
 //                    Toast.makeText(DetailItemInput.this, "Tanggal Mulai Harus Diisi!", Toast.LENGTH_SHORT).show();
@@ -217,13 +277,13 @@ public class DetailItemInput extends AppCompatActivity {
 //                    return;
 //                }
 //
-                if (TextUtils.isEmpty(latlng)) {
-                    Toast.makeText(DetailItemInput.this, "Menunggu Titik Lokasi!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                sendData(nama, deskripsi, tgl_mulai, tgl_berakhir, lat, lng);
+        if (permintaanBarang == null) {
+            if (TextUtils.isEmpty(latlng)) {
+                Toast.makeText(DetailItemInput.this, "Menunggu Titik Lokasi!", Toast.LENGTH_SHORT).show();
+                return;
             }
-        });
+        }
+        sendData(nama, deskripsi, tgl_mulai, tgl_berakhir, lat, lng);
     }
 
 //    // membuka gallery
@@ -252,18 +312,25 @@ public class DetailItemInput extends AppCompatActivity {
 //        }
 //    }
 
+
+
     private void sendData(String nama, String deskripsi, String tgl_mulai, String tgl_berakhir, String lat, String lng) {
         // Create a JSON Object
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("type", "insertPermintaanBarang");
-            jsonObject.put("nama", nama);
-            jsonObject.put("deskripsi", deskripsi);
-            jsonObject.put("tanggal_mulai", tgl_mulai);
-            jsonObject.put("tanggal_berakhir", tgl_berakhir);
-            jsonObject.put("lat", lat);
-            jsonObject.put("lng", lng);
-            jsonObject.put("calon_penyewa_id", calonPenyewa.getId());
+            jsonObject.put("type", type);
+            if (!type.equals("deletePermintaanBarang")) {
+                jsonObject.put("nama", nama);
+                jsonObject.put("deskripsi", deskripsi);
+                jsonObject.put("tanggal_mulai", tgl_mulai);
+                jsonObject.put("tanggal_berakhir", tgl_berakhir);
+                jsonObject.put("lat", lat);
+                jsonObject.put("lng", lng);
+                jsonObject.put("calon_penyewa_id", calonPenyewa.getId());
+            }
+            if (permintaanBarang != null) {
+                jsonObject.put("permintaan_barang_id", permintaanBarang.getId());
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -272,13 +339,14 @@ public class DetailItemInput extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, NetAPI.URL, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, "insertPermintaanBarangResponse : " + response);
+                Log.d(TAG, "permintaanBarangResponse : " + response);
 
                 try {
                     String type = response.getString("type");
+                    String message = response.getString("message");
 
                     if (type.equals("success")) {
-                        Toast.makeText(DetailItemInput.this, "Tambah Permintaan Barang Berhasil", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DetailItemInput.this, message, Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 } catch (JSONException e) {
@@ -359,38 +427,38 @@ public class DetailItemInput extends AppCompatActivity {
     private void getAddress() {
         editLokasi.setText("" + lat + ", " + lng + "");
         Log.d(TAG, "lat : " + lat + ", lng : " + lng);
-//        if (lat != 0 && lng != 0) {
-//            StringBuilder result = new StringBuilder();
-//            try {
-//                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-//                List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-//                if (addresses.size() > 0) {
-//                    Address address = addresses.get(0);
-//                    result.append(address.getLocality()).append("\n");
-//                    result.append(address.getCountryName()).append("\n");
-//                    result.append(address.getAddressLine(0)).append("\n");
-//                    result.append(address.getPostalCode()).append("\n");
-//                    result.append(address.getSubAdminArea()).append("\n");
-//                    result.append(address.getAdminArea()).append("\n");
-//                    result.append(address.getLatitude()).append("\n");
-//                    result.append(address.getLongitude()).append("\n");
-//                    result.append(address.getPhone()).append("\n");
-//                    result.append(address.getPremises()).append("\n");
-//                    result.append(address.getSubLocality()).append("\n");
-//                    result.append(address.getThoroughfare()).append("\n");
-//                    result.append(address.getSubThoroughfare()).append("\n");
-//                    result.append(address.getUrl()).append("\n");
-//                    result.append(address.getMaxAddressLineIndex()).append("\n");
-//
-//                    Log.w(TAG, result.toString());
-////                    tv_address.setText(address.getAddressLine(0));
-////                    addressLocation = address.getAddressLine(0);
-//                }
-//            } catch (IOException e) {
-//                Log.e(TAG, e.getMessage());
-//            }
-//        } else {
-////            tv_address.setText("Titik Lokasi Tidak Dapat Ditemukan");
-//        }
+        if (lat != 0 && lng != 0) {
+            StringBuilder result = new StringBuilder();
+            try {
+                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+                if (addresses.size() > 0) {
+                    Address address = addresses.get(0);
+                    result.append(address.getLocality()).append("\n");
+                    result.append(address.getCountryName()).append("\n");
+                    result.append(address.getAddressLine(0)).append("\n");
+                    result.append(address.getPostalCode()).append("\n");
+                    result.append(address.getSubAdminArea()).append("\n");
+                    result.append(address.getAdminArea()).append("\n");
+                    result.append(address.getLatitude()).append("\n");
+                    result.append(address.getLongitude()).append("\n");
+                    result.append(address.getPhone()).append("\n");
+                    result.append(address.getPremises()).append("\n");
+                    result.append(address.getSubLocality()).append("\n");
+                    result.append(address.getThoroughfare()).append("\n");
+                    result.append(address.getSubThoroughfare()).append("\n");
+                    result.append(address.getUrl()).append("\n");
+                    result.append(address.getMaxAddressLineIndex()).append("\n");
+
+                    Log.w(TAG, result.toString());
+//                    tv_address.setText(address.getAddressLine(0));
+//                    addressLocation = address.getAddressLine(0);
+                }
+            } catch (IOException e) {
+                Log.e(TAG, e.getMessage());
+            }
+        } else {
+//            tv_address.setText("Titik Lokasi Tidak Dapat Ditemukan");
+        }
     }
 }
