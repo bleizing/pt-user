@@ -61,7 +61,7 @@ public class ItemThreeFragment extends Fragment {
         calonPenyewa = Model.getCalonPenyewa();
 
         logout = (TextView) view.findViewById(R.id.tvLogout);
-        editNama = (EditText) view.findViewById(R.id.edNama);
+        editNama = (EditText) view.findViewById(R.id.edNamaBarang);
         editNoId = (EditText) view.findViewById(R.id.edNoId);
         editNoTelp = (EditText) view.findViewById(R.id.edTelp);
 

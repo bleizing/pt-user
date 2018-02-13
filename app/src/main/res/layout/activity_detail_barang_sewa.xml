@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:orientation="vertical">
@@ -31,9 +31,10 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:layout_marginTop="25dp"
-            android:text="Nama Barang"
+            android:text="Nama"
             android:textColor="@color/white"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edNama"
@@ -48,18 +49,74 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
-            android:text="Deskripsi"
+            android:text="No HP"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edNoHp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:fontFamily="sans-serif-light"
+            android:textSize="17sp"
+            android:enabled="false"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:text="Nama Barang"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edNamaBarang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:fontFamily="sans-serif-light"
             android:textColor="@color/white"
             android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:text="Deskripsi"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edDeskripsi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:fontFamily="sans-serif-light"
             android:textColor="@color/white"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:text="Harga (Rp)"
+            android:textColor="@color/white"
             android:textSize="17sp"
-            android:enabled="false" />
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edHarga"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:fontFamily="sans-serif-light"
+            android:inputType="number"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -67,7 +124,8 @@
             android:fontFamily="sans-serif-light"
             android:text="Tanggal Mulai"
             android:textColor="@color/white"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvTglMulai"
@@ -75,9 +133,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="sans-serif-light"
+            android:text="01 Januari 1970"
             android:textColor="@color/white"
-            android:textSize="17sp"
-            android:text="01 Januari 1970"/>
+            android:textSize="17sp" />
 
         <!--<TextView-->
         <!--android:layout_width="match_parent"-->
@@ -92,7 +150,7 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_marginTop="-5dp"
-            android:enabled="false"/>
+            android:enabled="false" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -100,7 +158,8 @@
             android:fontFamily="sans-serif-light"
             android:text="Tanggal Berakhir"
             android:textColor="@color/white"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <!--<TextView-->
         <!--android:layout_width="match_parent"-->
@@ -133,47 +192,91 @@
             android:fontFamily="sans-serif-light"
             android:text="Lokasi"
             android:textColor="@color/white"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/editLokasi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:fontFamily="sans-serif-light"
             android:textColor="@color/white"
-            android:textSize="17sp"
-            android:enabled="false"/>
+            android:textSize="17sp" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp">
             <!--<ImageView-->
-                <!--android:id="@+id/img_foto_barang"-->
-                <!--android:layout_width="200dp"-->
-                <!--android:layout_height="200dp"-->
-                <!--android:src="@mipmap/android_logo"-->
-                <!--android:visibility="gone"/>-->
+            <!--android:id="@+id/img_foto_barang"-->
+            <!--android:layout_width="200dp"-->
+            <!--android:layout_height="200dp"-->
+            <!--android:src="@mipmap/android_logo"-->
+            <!--android:visibility="gone"/>-->
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/img_foto_barang"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:src="@mipmap/android_logo"/>
+                android:src="@mipmap/android_logo" />
 
         </LinearLayout>
 
 
-        <Button
-            android:id="@+id/btn_close"
-            android:layout_width="match_parent"
+        <!--<Button-->
+        <!--android:id="@+id/btn_close"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:background="@color/white"-->
+        <!--android:layout_marginTop="25dp"-->
+        <!--android:layout_marginBottom="35dp"-->
+        <!--android:text="Tutup"-->
+        <!--android:textColor="@color/bg_screen3"-->
+        <!--android:fontFamily="sans-serif-light"-->
+        <!--android:textSize="20sp" />-->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@color/white"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="35dp"
-            android:text="Tutup"
-            android:textColor="@color/bg_screen3"
+            android:layout_marginTop="25dp">
+
+            <Button
+                android:id="@+id/btn_call"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_marginRight="20dp"
+                android:background="@color/white"
+                android:text="Call"
+                android:textColor="@color/bg_screen3"
+                android:fontFamily="sans-serif-light"/>
+
+            <Button
+                android:id="@+id/btn_message"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:background="@color/white"
+                android:layout_marginLeft="20dp"
+                android:text="Message"
+                android:textColor="@color/bg_screen3"
+                android:fontFamily="sans-serif-light"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="25dp"
+            android:layout_marginTop="20dp"
             android:fontFamily="sans-serif-light"
-            android:textSize="20sp" />
+            android:gravity="bottom"
+            android:text="Tutup"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
     </LinearLayout>
 </ScrollView>

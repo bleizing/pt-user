@@ -13,13 +13,16 @@ public class BarangSewa {
     private String foto_barang = "";
     private String lat = "";
     private String lng = "";
+    private Double harga;
     private int user_penyewa_id;
+    private String user_penyewa_nama;
+    private String user_penyewa_no_hp;
 
     public BarangSewa() {
 
     }
 
-    public BarangSewa(int id, String nama, String deskripsi, String tgl_mulai, String tgl_berakhir, String foto_barang, String lat, String lng, int user_penyewa_id) {
+    public BarangSewa(int id, String nama, String deskripsi, String tgl_mulai, String tgl_berakhir, String foto_barang, String lat, String lng, Double harga, int user_penyewa_id, String user_penyewa_nama, String user_penyewa_no_hp) {
         this.id = id;
         this.nama = nama;
         this.deskripsi = deskripsi;
@@ -28,7 +31,10 @@ public class BarangSewa {
         this.foto_barang = foto_barang;
         this.lat = lat;
         this.lng = lng;
+        this.harga = harga;
         this.user_penyewa_id = user_penyewa_id;
+        this.user_penyewa_nama = user_penyewa_nama;
+        this.user_penyewa_no_hp = user_penyewa_no_hp;
     }
 
     public void setNama(String nama) {
@@ -95,11 +101,35 @@ public class BarangSewa {
         return tgl_mulai;
     }
 
+    public void setHarga(Double harga) {
+        this.harga = harga;
+    }
+
+    public Double getHarga() {
+        return harga;
+    }
+
     public void setUser_penyewa_id(int user_penyewa_id) {
         this.user_penyewa_id = user_penyewa_id;
     }
 
     public int getUser_penyewa_id() {
         return user_penyewa_id;
+    }
+
+    public void setUser_penyewa_nama(String user_penyewa_nama) {
+        this.user_penyewa_nama = user_penyewa_nama;
+    }
+
+    public String getUser_penyewa_nama() {
+        return user_penyewa_nama;
+    }
+
+    public void setUser_penyewa_no_hp(String user_penyewa_no_hp) {
+        this.user_penyewa_no_hp = user_penyewa_no_hp;
+    }
+
+    public String getUser_penyewa_no_hp() {
+        return user_penyewa_no_hp;
     }
 }

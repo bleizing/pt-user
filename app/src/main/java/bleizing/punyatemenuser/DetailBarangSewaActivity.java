@@ -1,9 +1,10 @@
 package bleizing.punyatemenuser;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +24,7 @@ public class DetailBarangSewaActivity extends Activity {
 
     private BarangSewa barangSewa;
 
-    private EditText editNama, editDeskripsi, editLokasi;
+    private EditText editNama, editNoHp, editNamaBarang, editDeskripsi, editLokasi, editHarga;
     private TextView tvTglMulai, tvTglBerakhir;
     private NetworkImageView networkImageView;
 
@@ -33,6 +34,8 @@ public class DetailBarangSewaActivity extends Activity {
     private String addressLocation;
 
     private ImageLoader imageLoader;
+
+    private String no_hp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +66,13 @@ public class DetailBarangSewaActivity extends Activity {
         imageLoader = VolleyImageRequest.getInstance(this).getImageLoader();
 
         addressLocation = "";
+        no_hp = barangSewa.getUser_penyewa_no_hp();
 
         editNama = (EditText) findViewById(R.id.edNama);
+        editNoHp = (EditText) findViewById(R.id.edNoHp);
+        editNamaBarang = (EditText) findViewById(R.id.edNamaBarang);
         editDeskripsi = (EditText) findViewById(R.id.edDeskripsi);
+        editHarga = (EditText) findViewById(R.id.edHarga);
         editLokasi = (EditText) findViewById(R.id.editLokasi);
         tvTglMulai = (TextView) findViewById(R.id.tvTglMulai);
         tvTglBerakhir = (TextView) findViewById(R.id.tvTglBerakhir);
@@ -75,8 +82,36 @@ public class DetailBarangSewaActivity extends Activity {
 
         imageLoader.get(fotoUrl, ImageLoader.getImageListener(networkImageView, R.mipmap.ic_launcher, R.mipmap.ic_launcher));
 
-        Button btn_close = (Button) findViewById(R.id.btn_close);
-        btn_close.setOnClickListener(new View.OnClickListener() {
+//        Button btn_close = (Button) findViewById(R.id.btn_close);
+//        btn_close.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                finish();
+//            }
+//        });
+
+        Button btn_call = (Button) findViewById(R.id.btn_call);
+        btn_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + no_hp));
+                startActivity(intent);
+            }
+        });
+
+        Button btn_message = (Button) findViewById(R.id.btn_message);
+        btn_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("smsto:" + Uri.encode(no_hp)));
+                startActivity(intent);
+            }
+        });
+
+        TextView tv_close = (TextView) findViewById(R.id.tv_close);
+        tv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -127,8 +162,11 @@ public class DetailBarangSewaActivity extends Activity {
     }
 
     private void setData() {
-        editNama.setText(barangSewa.getNama());
+        editNama.setText(barangSewa.getUser_penyewa_nama());
+        editNoHp.setText(barangSewa.getUser_penyewa_no_hp());
+        editNamaBarang.setText(barangSewa.getNama());
         editDeskripsi.setText(barangSewa.getDeskripsi());
+        editHarga.setText(barangSewa.getHarga().toString());
         editLokasi.setText(addressLocation);
         tvTglMulai.setText(tglMulai);
         tvTglBerakhir.setText(tglBerakhir);

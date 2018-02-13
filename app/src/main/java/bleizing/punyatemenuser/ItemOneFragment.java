@@ -1,12 +1,17 @@
 package bleizing.punyatemenuser;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -68,6 +73,10 @@ public class ItemOneFragment extends Fragment implements OnMapReadyCallback,
     private ArrayList<BarangSewa> barangSewaArrayList;
     private ArrayList<PermintaanBarang> permintaanBarangArrayList;
 
+    private Double lat, lng;
+
+    private LocationManager locationManager;
+
     public static ItemOneFragment newInstance() {
         ItemOneFragment fragment = new ItemOneFragment();
         return fragment;
@@ -83,6 +92,12 @@ public class ItemOneFragment extends Fragment implements OnMapReadyCallback,
         requestQueue = Volley.newRequestQueue(getActivity());
         barangSewaArrayList = new ArrayList<>();
         permintaanBarangArrayList = new ArrayList<>();
+
+        lat = -6.175206;
+        lng = 106.827131;
+
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        getCurrentLocation();
     }
 
     @Override
@@ -109,11 +124,14 @@ public class ItemOneFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG, "onResume()");
+        getCurrentLocation();
         permintaanBarang = null;
         barangSewa = null;
         fab.setImageResource(android.R.drawable.ic_input_add);
         if (mMap != null) {
             mMap.clear();
+            setCenterPoint();
             if (barangSewaArrayList != null) {
                 if (barangSewaArrayList.size() != 0) {
                     barangSewaArrayList.clear();
@@ -136,8 +154,11 @@ public class ItemOneFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.d(TAG,"onMapReady()");
         mMap = googleMap;
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+        setCenterPoint();
 
         getBarangSewa();
         getPermintaanBarang();
@@ -158,7 +179,7 @@ public class ItemOneFragment extends Fragment implements OnMapReadyCallback,
 //        mMap.addMarker(new MarkerOptions().position(b4).title("Kerete Bayi").icon(icon));
 
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(b1));
-        updateBarangLokasi();
+//        updateBarangLokasi();
 
         mMap.setMinZoomPreference(10.0f);
         mMap.setMaxZoomPreference(20.0f);
@@ -182,8 +203,61 @@ public class ItemOneFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public void onLocationChanged(Location location) {
-
+//        lat = location.getLatitude();
+//        lng = location.getLongitude();
     }
+
+    private void getCurrentLocation() {
+        if (locationManager != null) {
+            if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (location != null) {
+                lat = location.getLatitude();
+                lng = location.getLongitude();
+
+//                getAddress();
+            }
+        }
+        if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, locationListener);
+        }
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, locationListener);
+    }
+
+    private android.location.LocationListener locationListener = new android.location.LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            lat = location.getLatitude();
+            lng = location.getLongitude();
+
+//            getAddress();
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(intent);
+        }
+    };
 
     private void fbClicked() {
         Intent intent;
@@ -221,9 +295,12 @@ public class ItemOneFragment extends Fragment implements OnMapReadyCallback,
                         String foto = jsonObject.getString("foto");
                         String lat = jsonObject.getString("lat");
                         String lng = jsonObject.getString("lng");
+                        Double harga = Double.parseDouble(jsonObject.getString("harga"));
                         int user_penyewa_id = Integer.parseInt(jsonObject.getString("user_penyewa_id"));
+                        String user_penyewa_nama = jsonObject.getString("user_penyewa_nama");
+                        String user_penyewa_no_hp = jsonObject.getString("user_penyewa_no_hp");
 
-                        BarangSewa barangSewa = new BarangSewa(id, nama, deskripsi, tgl_mulai, tgl_berakhir, foto, lat, lng, user_penyewa_id);
+                        BarangSewa barangSewa = new BarangSewa(id, nama, deskripsi, tgl_mulai, tgl_berakhir, foto, lat, lng, harga, user_penyewa_id, user_penyewa_nama, user_penyewa_no_hp);
                         barangSewaArrayList.add(barangSewa);
                     }
                     Model.setBarangSewaArrayList(barangSewaArrayList);
@@ -289,17 +366,17 @@ public class ItemOneFragment extends Fragment implements OnMapReadyCallback,
             if (mMap != null) {
                 for (BarangSewa barangSewa : barangSewaArrayList) {
                     LatLng lokasiBarang = new LatLng(Double.parseDouble(barangSewa.getLat()), Double.parseDouble(barangSewa.getLng()));
-                    mMap.addMarker(new MarkerOptions().position(lokasiBarang).title(barangSewa.getNama()).icon(icon));
+                    mMap.addMarker(new MarkerOptions().position(lokasiBarang).title(barangSewa.getNama()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
 
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(lokasiBarang));
+//                    mMap.moveCamera(CameraUpdateFactory.newLatLng(lokasiBarang));
                 }
             }
         } else {
             // LatLng Monumen Nasional as Default
-            LatLng lokasiBarang = new LatLng(-6.175206, 106.827131);
+//            LatLng lokasiBarang = new LatLng(-6.175206, 106.827131);
 //            mMap.addMarker(new MarkerOptions().position(lokasiBarang).title("Jual Baju Second").icon(icon));
 
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(lokasiBarang));
+//            mMap.moveCamera(CameraUpdateFactory.newLatLng(lokasiBarang));
         }
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -314,8 +391,21 @@ public class ItemOneFragment extends Fragment implements OnMapReadyCallback,
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                Log.d(TAG, "mMapBarangSewa Clicked");
+
                 checkTitle(marker.getTitle());
 
+//                String title = marker.getTitle();
+//
+//                for (BarangSewa bs : barangSewaArrayList) {
+//                    if (title.equals(bs.getNama())) {
+//                        barangSewa = bs;
+//                    }
+//                }
+//
+//                if (barangSewa != null) {
+//                    fab.setImageResource(R.drawable.ic_action_view);
+//                }
                 return false;
             }
         });
@@ -327,17 +417,17 @@ public class ItemOneFragment extends Fragment implements OnMapReadyCallback,
             if (mMap != null) {
                 for (PermintaanBarang permintaanBarang : permintaanBarangArrayList) {
                     LatLng lokasiBarang = new LatLng(Double.parseDouble(permintaanBarang.getLat()), Double.parseDouble(permintaanBarang.getLng()));
-                    mMap.addMarker(new MarkerOptions().position(lokasiBarang).title(permintaanBarang.getNama()).icon(icon));
+                    mMap.addMarker(new MarkerOptions().position(lokasiBarang).title(permintaanBarang.getNama()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(lokasiBarang));
+//                    mMap.moveCamera(CameraUpdateFactory.newLatLng(lokasiBarang));
                 }
             }
         } else {
             // LatLng Monumen Nasional as Default
-            LatLng lokasiBarang = new LatLng(-6.175206, 106.827131);
+//            LatLng lokasiBarang = new LatLng(-6.175206, 106.827131);
 //            mMap.addMarker(new MarkerOptions().position(lokasiBarang).title("Jual Baju Second").icon(icon));
 
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(lokasiBarang));
+//            mMap.moveCamera(CameraUpdateFactory.newLatLng(lokasiBarang));
         }
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -352,7 +442,22 @@ public class ItemOneFragment extends Fragment implements OnMapReadyCallback,
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                Log.d(TAG, "mMapPermintaanBarang Clicked");
                 checkTitle(marker.getTitle());
+
+//                String title = marker.getTitle();
+//
+//                for (PermintaanBarang pb : permintaanBarangArrayList) {
+//                    if (title.equals(pb.getNama())) {
+//                        permintaanBarang = pb;
+//
+//                        break;
+//                    }
+//                }
+//
+//                if (permintaanBarang != null) {
+//                    fab.setImageResource(R.drawable.ic_action_edit);
+//                }
 
                 return false;
             }
@@ -387,6 +492,16 @@ public class ItemOneFragment extends Fragment implements OnMapReadyCallback,
         } else {
             if (barangSewa != null) {
                 fab.setImageResource(R.drawable.ic_action_view);
+            }
+        }
+    }
+
+    private void setCenterPoint() {
+        if (mMap != null) {
+            if (lat != 0.0 && lng != 0.0) {
+                LatLng latLng = new LatLng(lat, lng);
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                mMap.animateCamera( CameraUpdateFactory.zoomTo( 12.0f ) );
             }
         }
     }
