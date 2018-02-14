@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -90,7 +91,7 @@ public class DetailBarangSewaActivity extends Activity {
 //            }
 //        });
 
-        Button btn_call = (Button) findViewById(R.id.btn_call);
+        ImageView btn_call = (ImageView) findViewById(R.id.btn_call);
         btn_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,7 +101,7 @@ public class DetailBarangSewaActivity extends Activity {
             }
         });
 
-        Button btn_message = (Button) findViewById(R.id.btn_message);
+        ImageView btn_message = (ImageView) findViewById(R.id.btn_message);
         btn_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
