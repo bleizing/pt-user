@@ -33,6 +33,8 @@ public class LoginForm extends AppCompatActivity {
     private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnReset;
 
+    private PrefManager prefManager;
+
     private RequestQueue requestQueue;
 
     @Override
@@ -44,6 +46,7 @@ public class LoginForm extends AppCompatActivity {
 
         // Request Queue Volley Network Connection
         requestQueue = Volley.newRequestQueue(LoginForm.this);
+        prefManager = new PrefManager(this);
 
 //        if (auth.getCurrentUser() != null) {
 //            startActivity(new Intent(LoginForm.this, MainActivity.class));
@@ -153,6 +156,8 @@ public class LoginForm extends AppCompatActivity {
 
                                                     CalonPenyewa calonPenyewa = new CalonPenyewa(id, nama, tempat_lahir, tanggal_lahir, jekel, alamat, no_hp, no_ktp, email, foto_ktp);
                                                     Model.setCalonPenyewa(calonPenyewa);
+
+                                                    prefManager.setUser(calonPenyewa);
 
                                                     Intent intent = new Intent(LoginForm.this, MainActivity.class);
                                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

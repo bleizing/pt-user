@@ -32,6 +32,8 @@ public class SignupActivity extends Activity {
     private EditText inputEmail, inputPassword;
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private ProgressBar progressBar;
+
+    private PrefManager prefManager;
 //    private FirebaseAuth auth;
 
     private RequestQueue requestQueue;
@@ -47,6 +49,8 @@ public class SignupActivity extends Activity {
 
         //Get Firebase auth instance
 //        auth = FirebaseAuth.getInstance();
+
+        prefManager = new PrefManager(this);
 
         // Request Queue Volley Network Connection
         requestQueue = Volley.newRequestQueue(SignupActivity.this);
@@ -149,6 +153,8 @@ public class SignupActivity extends Activity {
 
                                                     CalonPenyewa calonPenyewa = new CalonPenyewa(id, email);
                                                     Model.setCalonPenyewa(calonPenyewa);
+
+                                                    prefManager.setUser(calonPenyewa);
 
                                                     Intent intent = new Intent(SignupActivity.this, MainActivity.class);
                                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -79,7 +79,7 @@ public class DetailBarangSewaActivity extends Activity {
         tvTglBerakhir = (TextView) findViewById(R.id.tvTglBerakhir);
         networkImageView = (NetworkImageView) findViewById(R.id.img_foto_barang);
 
-        fotoUrl = "http://www.pt.himsigalaksi.com/" + barangSewa.getFoto_barang();
+        fotoUrl = NetAPI.BASE_URL + barangSewa.getFoto_barang();
 
         imageLoader.get(fotoUrl, ImageLoader.getImageListener(networkImageView, R.mipmap.ic_launcher, R.mipmap.ic_launcher));
 

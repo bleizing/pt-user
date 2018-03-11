@@ -85,6 +85,7 @@ public class ItemOneFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate()");
 
         calonPenyewa = Model.getCalonPenyewa();
 
@@ -93,6 +94,7 @@ public class ItemOneFragment extends Fragment implements OnMapReadyCallback,
         barangSewaArrayList = new ArrayList<>();
         permintaanBarangArrayList = new ArrayList<>();
 
+        // Default Location for Monas
         lat = -6.175206;
         lng = 106.827131;
 
@@ -125,12 +127,13 @@ public class ItemOneFragment extends Fragment implements OnMapReadyCallback,
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume()");
-        getCurrentLocation();
         permintaanBarang = null;
         barangSewa = null;
         fab.setImageResource(android.R.drawable.ic_input_add);
         if (mMap != null) {
+            Log.d(TAG,"mMap != null");
             mMap.clear();
+            getCurrentLocation();
             setCenterPoint();
             if (barangSewaArrayList != null) {
                 if (barangSewaArrayList.size() != 0) {
@@ -208,6 +211,7 @@ public class ItemOneFragment extends Fragment implements OnMapReadyCallback,
     }
 
     private void getCurrentLocation() {
+        Log.d(TAG, "getCurrentLocation()");
         if (locationManager != null) {
             if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
