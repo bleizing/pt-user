@@ -17,12 +17,13 @@ public class BarangSewa {
     private int user_penyewa_id;
     private String user_penyewa_nama;
     private String user_penyewa_no_hp;
+    private String kategori;
 
     public BarangSewa() {
 
     }
 
-    public BarangSewa(int id, String nama, String deskripsi, String tgl_mulai, String tgl_berakhir, String foto_barang, String lat, String lng, Double harga, int user_penyewa_id, String user_penyewa_nama, String user_penyewa_no_hp) {
+    public BarangSewa(int id, String nama, String deskripsi, String tgl_mulai, String tgl_berakhir, String foto_barang, String lat, String lng, Double harga, int user_penyewa_id, String user_penyewa_nama, String user_penyewa_no_hp, String kategori) {
         this.id = id;
         this.nama = nama;
         this.deskripsi = deskripsi;
@@ -35,6 +36,7 @@ public class BarangSewa {
         this.user_penyewa_id = user_penyewa_id;
         this.user_penyewa_nama = user_penyewa_nama;
         this.user_penyewa_no_hp = user_penyewa_no_hp;
+        this.kategori = kategori;
     }
 
     public void setNama(String nama) {
@@ -131,5 +133,13 @@ public class BarangSewa {
 
     public String getUser_penyewa_no_hp() {
         return user_penyewa_no_hp;
+    }
+
+    public void setKategori(String kategori) {
+        this.kategori = kategori;
+    }
+
+    public String getKategori() {
+        return kategori;
     }
 }

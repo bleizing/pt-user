@@ -60,7 +60,7 @@ public class DetailItemInput extends Activity {
 
     private double lat,lng;
 
-    private LocationManager locationManager;
+//    private LocationManager locationManager;
 
 //    private int PICK_IMAGE_REQUEST = 1;
 //    private Bitmap bitmap;
@@ -95,6 +95,9 @@ public class DetailItemInput extends Activity {
 
         type = "";
 
+        lat = Model.getLat();
+        lng = Model.getLng();
+
 //        year_x = cal.get(Calendar.YEAR);
 //        month_x = cal.get(Calendar.MONTH);
 //        day_x = cal.get(Calendar.DAY_OF_MONTH);
@@ -119,8 +122,8 @@ public class DetailItemInput extends Activity {
         linearModif = (LinearLayout) findViewById(R.id.linear_modif);
 
 
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        getCurrentLocation();
+//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//        getCurrentLocation();
 
         if (permintaanBarang != null) {
             linearLokasi.setVisibility(View.GONE);
@@ -134,6 +137,8 @@ public class DetailItemInput extends Activity {
             linearModif.setVisibility(View.GONE);
             type = "insertPermintaanBarang";
         }
+
+        getAddress();
 
 //        Button btn_ambil_gambar = (Button) findViewById(R.id.btn_ambil_gambar);
 //        btn_ambil_gambar.setOnClickListener(new View.OnClickListener() {
@@ -244,8 +249,8 @@ public class DetailItemInput extends Activity {
 //                String image = "";
         String tgl_mulai = "";
         String tgl_berakhir = "";
-        String lat = "-6.175206";
-        String lng = "106.827131";
+        String lat = String.valueOf(Model.getLat());
+        String lng = String.valueOf(Model.getLng());
         String latlng = "";
         if (permintaanBarang == null) {
             latlng = editLokasi.getText().toString().trim();
@@ -384,57 +389,57 @@ public class DetailItemInput extends Activity {
 //        return encodedImage;
 //    }
 
-    private LocationListener locationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-            lat = location.getLatitude();
-            lng = location.getLongitude();
-
-            getAddress();
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(intent);
-        }
-    };
-
-    private void getCurrentLocation() {
-        if (locationManager != null) {
-            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
-            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (location != null) {
-                lat = location.getLatitude();
-                lng = location.getLongitude();
-
-                getAddress();
-            }
-        }
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, locationListener);
-        }
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, locationListener);
-    }
+//    private LocationListener locationListener = new LocationListener() {
+//        @Override
+//        public void onLocationChanged(Location location) {
+//            lat = location.getLatitude();
+//            lng = location.getLongitude();
+//
+//            getAddress();
+//        }
+//
+//        @Override
+//        public void onStatusChanged(String provider, int status, Bundle extras) {
+//
+//        }
+//
+//        @Override
+//        public void onProviderEnabled(String provider) {
+//
+//        }
+//
+//        @Override
+//        public void onProviderDisabled(String provider) {
+//            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+//            startActivity(intent);
+//        }
+//    };
+//
+//    private void getCurrentLocation() {
+//        if (locationManager != null) {
+//            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                // TODO: Consider calling
+//                //    ActivityCompat#requestPermissions
+//                // here to request the missing permissions, and then overriding
+//                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                //                                          int[] grantResults)
+//                // to handle the case where the user grants the permission. See the documentation
+//                // for ActivityCompat#requestPermissions for more details.
+//                return;
+//            }
+//            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//            if (location != null) {
+//                lat = location.getLatitude();
+//                lng = location.getLongitude();
+//
+//                getAddress();
+//            }
+//        }
+//        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, locationListener);
+//        }
+//        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, locationListener);
+//    }
 
     private void getAddress() {
         editLokasi.setText("" + lat + ", " + lng + "");

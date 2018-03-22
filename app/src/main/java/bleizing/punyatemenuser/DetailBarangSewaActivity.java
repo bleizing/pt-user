@@ -25,7 +25,7 @@ public class DetailBarangSewaActivity extends Activity {
 
     private BarangSewa barangSewa;
 
-    private EditText editNama, editNoHp, editNamaBarang, editDeskripsi, editLokasi, editHarga;
+    private EditText editNama, editNoHp, editNamaBarang, editDeskripsi, editLokasi, editHarga, edKategori;
     private TextView tvTglMulai, tvTglBerakhir;
     private NetworkImageView networkImageView;
 
@@ -69,6 +69,7 @@ public class DetailBarangSewaActivity extends Activity {
         addressLocation = "";
         no_hp = barangSewa.getUser_penyewa_no_hp();
 
+        edKategori = (EditText) findViewById(R.id.edKategori);
         editNama = (EditText) findViewById(R.id.edNama);
         editNoHp = (EditText) findViewById(R.id.edNoHp);
         editNamaBarang = (EditText) findViewById(R.id.edNamaBarang);
@@ -163,6 +164,7 @@ public class DetailBarangSewaActivity extends Activity {
     }
 
     private void setData() {
+        edKategori.setText(barangSewa.getKategori());
         editNama.setText(barangSewa.getUser_penyewa_nama());
         editNoHp.setText(barangSewa.getUser_penyewa_no_hp());
         editNamaBarang.setText(barangSewa.getNama());
